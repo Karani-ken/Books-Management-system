@@ -1,7 +1,8 @@
-﻿<div class="m-3 shadow-lg shadow-black p-3  text-center  rounded-3" style="Width: 15rem;">
+﻿@inject IToastService ToastService;
+<div class="m-3 shadow-lg shadow-black p-3  text-center  rounded-3" style="Width: 15rem;">
     <h3 class="font-black">@Book.Title</h3>
     <p class="text-sm text-gray font-black">@Book.Description</p>
-    <ul>
+    <ul style="list-style:none;">
         @foreach (var author in Book.Authors)
         {
             <li>@author.AuthorName</li>
@@ -30,6 +31,12 @@
     public async Task DeleteBook()
     {
         await DeleteBookId.InvokeAsync(Book.Id);
+        await ToastService.AddToastAsync(
+                    message: "Book Delete",
+                    type: "warning",
+                    animation: "fade",
+                    autoClose: 3000
+        );
     }
     public async Task UpdateBook(BookDto book)
     {

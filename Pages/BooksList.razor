@@ -3,11 +3,11 @@
     <div class="col-4">
         @if(SelectedBook != null)
         {
-            <AddBook EditBook="UpdateBook" BookEdit="SelectedBook"/>
+            <AddBook EditBook="HandleBookUpdate" BookEdit="SelectedBook"/>
         }
         else
         {
-            <AddBook AddNewBook="AddNewBook" />
+            <AddBook AddNewBook="AddNewBook" EditBook="UpdateBook" />
         }
     </div>
     <div class=" col-8">
@@ -55,6 +55,12 @@
     {
         SelectedBook = book;
 
+    }
+    public void HandleBookUpdate(BookDto book)
+    {
+        var IndexOfBook = Books.IndexOf(book);
+        Books[IndexOfBook] = book;
+        SelectedBook = null;
     }
     public void DeleteBook(Guid id)
     {
