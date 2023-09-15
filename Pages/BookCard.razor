@@ -1,0 +1,39 @@
+﻿<div class="m-3 shadow-lg shadow-black p-3  text-center  rounded-3" style="Width: 15rem;">
+    <h3 class="font-black">@Book.Title</h3>
+    <p class="text-sm text-gray font-black">@Book.Description</p>
+    <ul>
+        @foreach (var author in Book.Authors)
+        {
+            <li>@author.AuthorName</li>
+        }
+
+    </ul>
+    
+
+    <div class="d-grid row-2">
+        <button @onclick="DeleteBook" class="mt-4  btn btn-danger">Delete</button>
+        <button @onclick="(() => UpdateBook(Book))" class="mt-4  btn btn-primary">Edit</button>
+    </div>
+
+</div>
+
+@code {
+    [Parameter]
+    public BookDto Book { get; set; }
+
+
+    [Parameter]
+    public EventCallback<BookDto> EditBook { get; set; }
+    [Parameter]
+    public EventCallback<Guid> DeleteBookId { get; set; }
+
+    public async Task DeleteBook()
+    {
+        await DeleteBookId.InvokeAsync(Book.Id);
+    }
+    public async Task UpdateBook(BookDto book)
+    {
+        await EditBook.InvokeAsync(book);
+    }
+
+}

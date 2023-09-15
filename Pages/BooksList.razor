@@ -1,0 +1,63 @@
+﻿@page "/"
+<div  class="row mx-5">
+    <div class="col-4">
+        @if(SelectedBook != null)
+        {
+            <AddBook EditBook="UpdateBook" BookEdit="SelectedBook"/>
+        }
+        else
+        {
+            <AddBook AddNewBook="AddNewBook" />
+        }
+    </div>
+    <div class=" col-8">
+        @if(Books.Count == 0)
+        {
+            <p>You have no Books</p>
+        }
+        else
+        {
+            <div class=" row" style="width:100%; text-align:center;">
+                @foreach(var Book in Books)
+                {
+                    <BookCard Book="Book" EditBook="UpdateBook" DeleteBookId="DeleteBook" />
+                }
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@code {
+    private List<BookDto> Books = new List<BookDto>()
+    {
+        new BookDto()
+        {
+            Id=Guid.NewGuid(),
+            Title="Harry Porter",
+            Description="Adventure Fantasy"
+        },
+         new BookDto()
+        {
+            Id=Guid.NewGuid(),
+            Title="Lord of the Rings",
+            Description="Adventure Fantasy"
+        }
+    };
+    public void AddNewBook(BookDto book)
+    {
+        this.Books.Add(book);
+    }
+
+    private BookDto SelectedBook;
+    public void UpdateBook(BookDto book)
+    {
+        SelectedBook = book;
+
+    }
+    public void DeleteBook(Guid id)
+    {
+        this.Books.RemoveAll(b => b.Id == id);
+    }
+}
